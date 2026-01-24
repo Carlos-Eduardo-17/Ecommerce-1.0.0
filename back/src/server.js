@@ -3,8 +3,8 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import session from "express-session";
-import  authRoutes  from "./routes/auth.routes.js";
 import { connectDb } from "./config/db.js";
+import { runSeeds } from "./seeds/index.js";
 
 export class Server {
     constructor() {
@@ -13,10 +13,15 @@ export class Server {
         this.database();
         this.middlewares();
         this.routes();
+        this.seeds();
     }
 
     async database() {
-        connectDb();
+        await connectDb();
+    }
+
+    async seeds() {
+        await runSeeds();
     }
 
     middlewares() {
