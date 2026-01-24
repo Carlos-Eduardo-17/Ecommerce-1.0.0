@@ -1,0 +1,52 @@
+import "dotenv/config";
+import express from "express";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import session from "express-session";
+import  authRoutes  from "./routes/auth.routes.js";
+import { connectDb } from "./config/db.js";
+
+export class Server {
+    constructor() {
+        this.app = express();
+        this.port = process.env.PORT;
+        this.database();
+        this.middlewares();
+        this.routes();
+    }
+
+    async database() {
+        connectDb();
+    }
+
+    middlewares() {
+        this.app.use(cors());
+        this.app.use(express.json());
+        this.app.use(cookieParser());
+        this.app.use(express.urlencoded({ extended: true }));
+        this.app.use(express.static('public')); // sirve archivos estáticos desde la carpeta public sin necesidad de definir rutas manuales (pe: /public/logo.png  →  https://tuservidor.com/logo.png) // Carga index.html automáticamente
+        this.app.use(session({
+            secret: process.env.SESSION_SECRET,
+            resave: false, // no guardar sesión si no ha habido modificaciones
+            saveUninitialized: false, // no guardar sesiones vacías
+            cookie: {
+                secure: process.env.NODE_ENV === "production" // usar cookies seguras en producción
+            }
+        }));
+        //this.app.use(passport.initialize());
+        //this.app.use(passport.session());
+    }
+
+    routes() {
+        //this.app.use("/api/auth", authRoutes);        
+        this.app.use("/api/health", (req, res) => {
+            res.json({ status: "OK" });
+        });
+    }
+
+    listen() {
+        this.app.listen(this.port, () => {
+            console.log(`✅ Server running on port ${this.port}`);
+        });
+    }
+}
