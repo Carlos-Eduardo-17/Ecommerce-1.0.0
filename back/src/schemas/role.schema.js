@@ -1,4 +1,5 @@
-/* Definición de roles del sistema para controlar autorización
+/* 
+Definición de roles del sistema para controlar autorización
 - Se cargan una sola vez por seed
 - Luego se referenciarán solo por _id
 */

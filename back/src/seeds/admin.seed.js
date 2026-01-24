@@ -29,4 +29,17 @@ export async function seedAdmin() {
   });
 
   console.log("✅ Usuario ADMIN creado");
+
+  const userRole = await Role.findOne({ name: "USER" });
+  await User.create({
+    firstName: "Carlos",
+    lastName: "Medina",
+    email: "carlos.1710.ml@hotmail.com",
+    passwordHash: "clavedeprueba",
+    role: userRole._id,
+    status: "ACTIVE",
+    emailVerified: true,
+  });
+
+  console.log("✅ Usuario USER creado");
 }

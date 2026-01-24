@@ -3,8 +3,13 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import session from "express-session";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import { connectDb } from "./config/db.js";
 import { runSeeds } from "./seeds/index.js";
+import { OrderROute } from "./routes/order.routes.js";
+
+const limiter = rateLimit({ windowMs: 60_000, max: 2 });
 
 export class Server {
     constructor() {
@@ -14,6 +19,7 @@ export class Server {
         this.middlewares();
         this.routes();
         this.seeds();
+        
     }
 
     async database() {
@@ -27,6 +33,7 @@ export class Server {
     middlewares() {
         this.app.use(cors());
         this.app.use(express.json());
+        this.app.use(helmet());
         this.app.use(cookieParser());
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use(express.static('public')); // sirve archivos estáticos desde la carpeta public sin necesidad de definir rutas manuales (pe: /public/logo.png  →  https://tuservidor.com/logo.png) // Carga index.html automáticamente
@@ -38,15 +45,16 @@ export class Server {
                 secure: process.env.NODE_ENV === "production" // usar cookies seguras en producción
             }
         }));
+        
         //this.app.use(passport.initialize());
         //this.app.use(passport.session());
     }
 
     routes() {
         //this.app.use("/api/auth", authRoutes);        
-        this.app.use("/api/health", (req, res) => {
+        this.app.use("/api/health", limiter, (req, res) => {
             res.json({ status: "OK" });
-        });
+        });        
     }
 
     listen() {

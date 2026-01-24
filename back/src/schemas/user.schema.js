@@ -46,28 +46,28 @@ const userSchema = new mongoose.Schema(
       default: "PENDING",
     },
 
-    emailVerified: {
+    emailVerified: { // Verificación por email: True o False
       type: Boolean,
       default: false,
     },
 
-    verificationCode: {
-      type: String,
-    },
-
-    verificationCodeExpiresAt: {
+    lastPasswordChangeAt: { // Fecha del último cambio de contraseña
       type: Date,
     },
 
-    resetPasswordToken: {
+    verificationCode: { // Usado para activar cuenta
       type: String,
     },
 
-    lastPasswordChangeAt: {
+    verificationCodeExpiresAt: { // Fecha de expiración de código de verificación
       type: Date,
     },
 
-    resetPasswordExpiresAt: {
+    resetPasswordToken: { // Usado para restablecer contraseña
+      type: String,
+    },
+
+    resetPasswordExpiresAt: { // Fecha de expiración de código de reestablecimiento de constraseña
       type: Date,
     },
 
