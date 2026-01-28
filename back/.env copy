@@ -1,0 +1,24 @@
+MONGOURI = mongodb+srv://tu_usuario_mongodb:clave_mongodb@cluster0.s37xcuo.mongodb.net/nombre_database
+PORT = 3000
+
+# Para session
+# SESSION_SECRET = supersecreto NO usado
+
+# Para admin.seed.js
+ADMIN_EMAIL=tu_correo_admin@gmail.com
+ADMIN_PASSWORD=tu_clave_admin
+
+# Para JWT
+JWT_SECRET=tu_secreto_jwt
+JWT_EXPIRES_IN=tiempo_expiración.Pe:7d
+COOKIE_SECRET=tu_secreto_cookie
+NODE_ENV = development
+
+# Para mailer
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=correo_emisor_codigo_verificacion
+SMTP_PASS=clave_16_digitos_app_google
+
+#Para Stripe
+STRIPE_SECRET_KEY=tu_clave_secreta_stripe
