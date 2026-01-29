@@ -53,7 +53,7 @@ export const authService = {
       verificationCode,
       verificationCodeExpiresAt,
     });
-
+  console.log("Usuario pendiente creado, se está enviando el código de verificación")
     await sendVerificationEmail(email, verificationCode);
 
     return {
